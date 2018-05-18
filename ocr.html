@@ -322,7 +322,7 @@
                                                                           </td>
                                                                           <td>Expense date: </td>
                                                                           <td>
-                                                                            <input id="ocrexpDate" type="text" placeholder="">
+                                                                            <input id="expDate" type="text" placeholder="">
                                                                           </td>
                                                                         </tr>
                                                                         <tr>
@@ -342,7 +342,7 @@
                                                                           </td>
                                                                           <td colspan="2">
                                                                             <span class="text-left" style="display: block;">Amount</span>
-                                                                            <input id="ocramount" type="text" placeholder="Amount">
+                                                                            <input id="" type="text" placeholder="Amount">
                                                                           </td>
                                                                           <td>
                                                                             <span class="" style="display: block;">Currency</span>
@@ -358,8 +358,7 @@
                                                                         </tr>
                                                                         <tr>
                                                                           <td colspan="4">
-                                                                            <textarea id="ocrnarration" rows="2" 
-                                                                            placeholder="Narration" ></textarea>
+                                                                            <textarea rows="2" placeholder="Narration" ></textarea>
                                                                           </td>
                                                                         </tr>
                                                                       </table>
@@ -397,17 +396,13 @@
                                                    <h4>Add OCR</h4>
                                                    <div class="item-inner comments-list">
                                                     <ul class="ocrlist">
-
-                                                      <li><a href="" class="ocriconsml"><i class="fa fa-camera" aria-hidden="true"
-                                                         onclick="takePhoto('ocr');"></i>Capture a Receipt</a></li>
-
-                                                      <li><a href="" class="ocriconsml" 
-                                                         onclick="getGelleryPhoto(pictureSource.PHOTOLIBRARY);"><i class="fa fa-picture-o" aria-hidden="true"></i>Pick from Gallery</a></li>
+                                                      <li><a href="" class="ocriconsml"><i class="fa fa-camera" aria-hidden="true"></i>Capture a Receipt</a></li>
+                                                      <li><a href="" class="ocriconsml"><i class="fa fa-picture-o" aria-hidden="true"></i>Pick from Gallery</a></li>
                                                     </ul>
                                                    </div>
-                                                   <div class="ocrthumnails" >
+                                                   <div class="ocrthumnails">
                                                      <p class="selctocr">Select an image for OCR</P>
-                                                     <ul id='ocrBox'>
+                                                     <ul>
                                                        <li class="addocrblock"><img src="images/dummy-image.png" class=""></li>
                                                        <li class="addocrblock"><img src="images/dummy-image.png" class=""></li>
                                                        <li class="addocrblock"><img src="images/dummy-image.png" class=""></li>
@@ -499,22 +494,11 @@
                                                                         <div class="fourlinkbtm">
                                                                           <table>
                                                                             <tr>
-                                                                              <td><a href="" onclick ="addToOCRExpense();">
-                                                                                 <i class="fa fa-check" aria-hidden="true"></i> 
-                                                                                 Save</a></td>
-                                                                              <td><a href="" onclick ="addTobussinesExpense();">
-                                                                                 <i class="fa fa-send" aria-hidden="true"></i>
-                                                                                  Send Approval</a></td>
-                                                                              <td><a href="" onclick ="saveOcrDetailsInWishList()">
-                                                                                 <i class="fa fa-heart" aria-hidden="true"></i> 
-                                                                                 Add Wishlist</a></td>
-                                                                              <td><a href="" onclick ="closeAddExpense()">
-                                                                                 <i class="fa fa-remove" aria-hidden="true"></i> Remove</a>
-                                                                              </td>
-                                                                              <td><a href="" class="closeexpmodal" 
-                                                                                 onclick ="closeAddExpense()">
-                                                                                 <i class="fa fa-angle-double-up" aria-hidden="true"></i> Close</a>
-                                                                              </td>
+                                                                              <td><a href=""><i class="fa fa-check" aria-hidden="true"></i> Save</a></td>
+                                                                              <td><a href=""><i class="fa fa-send" aria-hidden="true"></i> Send Approval</a></td>
+                                                                              <td><a href=""><i class="fa fa-heart" aria-hidden="true"></i> Add Wishlist</a></td>
+                                                                              <td><a href=""><i class="fa fa-remove" aria-hidden="true"></i> Remove</a></td>
+                                                                              <td><a href="" class="closeexpmodal"><i class="fa fa-angle-double-up" aria-hidden="true"></i> Close</a></td>
                                                                             </tr>
                                                                           </table>
                                                                         </div>
@@ -717,8 +701,5 @@
       <script type="text/javascript" src="js/index.js"></script>
       <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
       <script type="text/javascript" src="js/jquery-ui.js"></script>
-      <script>
-       getReceiptsImage();
-      </script>
    </body>
 </html>

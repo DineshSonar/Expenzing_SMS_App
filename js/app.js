@@ -165,6 +165,8 @@ function showDoughnutChartPage(obj) {
     return chart;
 }
 
+
+
 function showRadarChartPage(obj) {
     var data = {
         labels: [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ],
@@ -1573,10 +1575,9 @@ function onPhotoDataSuccess(imageData) {
             } else {
         alert("db not found, your browser does not support web sql!");
       }
-	}else if(cameraTask === "ocr"){
-        saveWalletAttachment(imageData);
-        getReceiptsImage();
-    }
+	}else{
+		
+	}
       
   }
 
@@ -2403,9 +2404,9 @@ function showImage(){
 
 function getReceiptsImage() {
 			var rowsWallet;
-			
+			var mytable = j('<div></div>').attr({ id: "",class: ["display:flex"].join(' ') });
 			mydb.transaction(function(t) {
-				 j('#ocrBox').empty();
+				 j('#walletBox').empty();
 		      t.executeSql('SELECT * FROM walletMst;', [],
 				 function(transaction, result) {
 					
@@ -2416,17 +2417,12 @@ function getReceiptsImage() {
 					  var row = result.rows.item(i);	
                         
                        
-					   j("#ocrBox").append('<li class="addocrblock"><img id="recieptid_'+i+'" src="'+row.walletAttachment+'" style="width:50px; height:50px; padding:5px;" title="Select this reciept for processing" onclick="chooseOption(this,'+i+');" ></img>');
-	
+					   j(mytable).append('<img id="recieptid_'+i+'" src="'+row.walletAttachment+'" style="width:50px; height:50px; padding:5px;" title="Select this reciept for processing" onclick="chooseOption(this,'+i+');" ></img>');
 
+                     mytable.appendTo("#walletBox");		
 					}
-                    /* j("#ocrBox").listview('refresh');*/
-
-                    /*j(mytable).append('<br><span id="imgProcessingId" style="vertical-align: top; padding-left: 40px;"></span>');
-                     mytable.appendTo("#ocrBox");
-
-                     mytable.appendTo("#ocrBox"); */  
-
+                    j(mytable).append('<br><span id="imgProcessingId" style="vertical-align: top; padding-left: 40px;"></span>');
+                     mytable.appendTo("#walletBox");
 /*				j("#walletSource td").click(function(){
 					headerOprationBtn = defaultPagePath+'headerPageForWalletOperation.html';
 					if(j(this).hasClass( "selected")){
@@ -2453,7 +2449,7 @@ function saveWalletAttachment(path){
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
 											[path]);
 			});
-           getReceiptsImage();
+           //getReceiptsImage();
 	} else {
          alert('Database not found, your browser does not support web sql!');
     }
@@ -2953,3 +2949,147 @@ function showImg(id){
 function hideImg(id){
 	j(id).css('display','none');
 }
+
+
+//SMART APP
+function checkforData(){
+	console.log("neha pagal 1");
+			//j('#box').empty();
+	   
+	var data ="<li class='swipeout'> <div class='swipeout-content'> "
++ " <div class='item-content claimlisting'> "
++ " <div class='item-inner comments-list'> "
++ " <div class='image'> "
++ " <span class='ava'> "
++ " <img src='images/freecharge-200x200_2163.jpg' alt=''> "
++ " </span> "
++ " </div> "
++ " <div class='text'> "
++ " <div class='info'> "
++ " <span class='data'>SMS date : 20th Dec 2016 | Amount Rs. 2000</span> "
++ " </div> "
++ " <div class='comment'> "
++ " Hi your order #14247962455 of Rs. 2490 for 2 items is successfull. "
++ " </div> "
++ " </div> "
++ " <div class='closeexpbox'><i class='fa fa-angle-double-down'></i></div> "
++ " </div> "
++ " </div> "
++ " <div class='opentogglelist'> "
++ " <div class='item-inner comments-list'> "
++ " <table> "
++ " <tr> "
++ " <td valign='top'> "
++ " <div class='image'> "
++ " <span class='ava'> "
++ " <img src='images/dummy-image.png' alt=''> "
++ " </span> "
++ " </div> "
++ " <div class='verticalicons'> "
++ " <ul> "
++ " <li> "
++ " <a href='' class='vericonssml'><i class='fa fa-camera' aria-hidden='true'></i></a> "
++ " </li> "
++ " <li> "
++ " <a href='' class='vericonssml'><i class='fa fa-picture-o' aria-hidden='true'></i></a> "
++ " </li> "
++ " <li> "
++ " <a href='' class='vericonssml'><i class='fa fa-map-marker' aria-hidden='true'></i></a> "
++ " </li> "
++ " </ul> "
++ " </div> "
++ " </td> "
++ " <td valign='top'> "
++ " <table> "
++ " <tr> "
++ " <td>Account head: </td> "
++ " <td colspan='3'> "
++ " <select style='width: 100%;'> "
++ " <option>Business Exp.</option> "
++ " <option>Travel Exp.</option> "
++ " </select> "
++ " </td> "
++ " </tr> "
++ " <tr> "
++ " <td>Expense name: </td> "
++ " <td> "
++ " <select> "
++ " <option>Conveyance</option> "
++ " <option>Meal</option> "
++ " <option>Client Entertainment</option> "
++ " </select> "
++ " </td> "
++ " <td>Expense date: </td> "
++ " <td> "
++ " <input id='expDate' type='text' placeholder=''> "
++ " </td> "
++ " </tr> "
++ " <tr> "
++ " <td>From location: </td> "
++ " <td> "
++ " <input id='' type='text' placeholder=''> "
++ " </td> "
++ " <td>To location: </td> "
++ " <td> "
++ " <input id='' type='text' placeholder=''> "
++ " </td> "
++ " </tr> "
++ " <tr> "
++ " <td> "
++ " <span class='text-left' style='display: block;'>Units</span> "
++ " <input id='' type='text' placeholder='Units'> "
++ " </td> "
++ " <td colspan='2'> "
++ " <span class='text-left' style='display: block;'>Amount</span> "
++ " <input id='' type='text' placeholder='Amount'> "
++ " </td> "
++ " <td> "
++ " <span class='' style='display: block;'>Currency</span> "
++ " <select> "
++ " <option>Currency</option> "
++ " <option>INR</option> "
++ " <option>USD</option> "
++ " </select> "
++ " </td> "
++ " </tr> "
++ " <tr> "
++ " <td colspan='4'>(Unit is no. of persons/Kms/meals etc.)</td> "
++ " </tr> "
++ " <tr> "
++ " <td colspan='4'> "
++ " <textarea rows='2' placeholder='Narration' ></textarea> "
++ " </td> "
++ " </tr> "
++ " </table> "
++ " </td> "
++ " </tr> "
++ " <tr> "
++ " <td colspan='2'> "
++ " <div class='fourlinkbtm'> "
++ " <table> "
++ " <tr> "
++ " <td><a href=''><i class='fa fa-check' aria-hidden='true'></i> Save</a></td> "
++ " <td><a href=''><i class='fa fa-send' aria-hidden='true'></i> Send Approval</a></td> "
++ " <td><a href=''><i class='fa fa-heart' aria-hidden='true'></i> Add Wishlist</a></td> "
++ " <td><a href=''><i class='fa fa-remove' aria-hidden='true'></i> Remove</a></td> "
++ " <td><a href='' class='closeexpmodal'><i class='fa fa-angle-double-up' aria-hidden='true'></i> Close</a></td> "
++ " </tr> "
++ " </table> "
++ " </div> "
++ " </td> "
++ " </tr> "
++ " </table> "
++ " </div> "
++ " </div> "
++ " </div> "
++ " <div class='swipeout-actions-right'> "
++ " <a href='#' class='action-green js-up'>Send for Approval</a> "
++ " <a href='#' class='action-red js-down'>Add to wishlist</a> "
++ " <a href='#' class='action-blue js-down'>Delete</a> "
++ " </div> "
++ " </li> ";
+
+		console.log("neha pagal 2");
+     j('#box').append(data);
+          
+ }  

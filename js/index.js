@@ -5,12 +5,12 @@ var urlPath;
 //var WebServicePath ='http://1.255.255.140:8085/NexstepWebService/mobileLinkResolver.service';
 //var WebServicePath = 'http://live.nexstepapps.com:8284/NexstepWebService/mobileLinkResolver.service';
 //var WebServicePath ='http://1.255.255.36:9898/NexstepWebService/mobileLinkResolver.service';
-var WebServicePath ='http://1.255.255.197:8082/NexstepWebService/mobileLinkResolver.service';
+var WebServicePath ='http://1.255.255.85:8085/NexstepWebService/mobileLinkResolver.service';
 var clickedFlagCar = false;
 var clickedFlagTicket = false;
 var clickedFlagHotel = false;
 var clickedCarRound = false;
-var clickedTicketRound = false;
+var clickedTicketRound = false; 
 var clickedHotelRound = false;
 var perUnitDetailsJSON= new Object();
 var ismodeCategoryJSON=new Object();
@@ -3576,3 +3576,5 @@ function getSms(){
     
     
 }
+
+

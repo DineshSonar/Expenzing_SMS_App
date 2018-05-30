@@ -2513,33 +2513,28 @@ let apiKeys = {
 
 
 function sendDataToOCR(imagePath) {
-		try {     
-        alert("in sendDataToOCR "+imagePath);  
+        try {       
         ocrImagePath = imagePath;
-       
-
-
         encodeImage(imagePath, function (dataURL) {
     // or do whatever you want with it.
         var str_arr = dataURL.split(',');
 
-			let img_base64 = str_arr[1];
-			alert('ajax call 1');
-			let ocr_url = endPoints.OCR_URL.replace(new RegExp('YOUR_API_KEY','g'), apiKeys.OCR_GOOGLE_KEY);
-			let ocr_req_body = reqBodies.OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), '/9j/7QBEUGhvdG9zaG9...base64-encoded-image-content...fXNWzvDEeYxxxzj/Coa6Bax//Z');
-			alert('ajax call');
-			j.ajax({
-				url: ocr_url, 
-				type:"POST", async:false, 
-				success: ocrSuccess,
-				contentType:'application/json',
-				data:ocr_req_body,
-				error:ocrFailure
-			});
-       }
-       );
-			
-		}catch(e){alert("exception : " + e)}
+            let img_base64 = str_arr[1];
+            alert("ajax ")
+            let ocr_url = endPoints.OCR_URL.replace(new RegExp('YOUR_API_KEY','g'), apiKeys.OCR_GOOGLE_KEY);
+            let ocr_req_body = reqBodies.OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), img_base64);
+            alert("ajax 11")
+            j.ajax({
+                url: ocr_url, 
+                type:"POST", async:false, 
+                success: ocrSuccess,
+                contentType:'application/json',
+                data:ocr_req_body,
+                error:ocrFailure
+            });
+       });
+            
+        }catch(e){alert("exception : " + e)}
             
 }
 

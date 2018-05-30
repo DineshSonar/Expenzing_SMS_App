@@ -2521,8 +2521,12 @@ function sendDataToOCR(imagePath) {
 
             let img_base64 = str_arr[1];
             alert("ajax ")
-            let ocr_url = endPoints.OCR_URL.replace(new RegExp('YOUR_API_KEY','g'), apiKeys.OCR_GOOGLE_KEY);
-            let ocr_req_body = reqBodies.OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), img_base64);
+             try{
+                let ocr_url = endPoints.OCR_URL.replace(new RegExp('YOUR_API_KEY','g'), apiKeys.OCR_GOOGLE_KEY);
+                let ocr_req_body = reqBodies.OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), img_base64);
+            } catch(e) {
+                    alert('ecpetion in end pont' + e);
+            }
             alert("ajax 11")
             j.ajax({
                 url: ocr_url, 

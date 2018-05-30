@@ -2497,19 +2497,7 @@ getReceiptsImage();
     
 
 
-let endPoints = {   
-        OCR_URL : "https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY"
-};
 
-//List of Request Bodies
-let reqBodies = {
-    OCR_REQ_BODY : '{"requests": [{"image":{"content": "IMG_BODY_BASE64"},"features":[{"type": "TEXT_DETECTION"}]}]}'
-};
-
-//API keys
-let apiKeys = {
-        OCR_GOOGLE_KEY : "AIzaSyBEPMonG1v0hfhJFaQp5qxlV8srY2nM8z4"
-}
 
 
 function sendDataToOCR(imagePath) {
@@ -2521,9 +2509,12 @@ function sendDataToOCR(imagePath) {
 
             let img_base64 = str_arr[1];
             alert("ajax ")
-             try{
-                let ocr_url = endPoints.OCR_URL.replace(new RegExp('YOUR_API_KEY','g'), apiKeys.OCR_GOOGLE_KEY);
-                let ocr_req_body = reqBodies.OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), img_base64);
+            let OCR_URL : "https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY";
+            let OCR_REQ_BODY : '{"requests": [{"image":{"content": "IMG_BODY_BASE64"},"features":[{"type": "TEXT_DETECTION"}]}]}';
+            let OCR_GOOGLE_KEY : "AIzaSyBEPMonG1v0hfhJFaQp5qxlV8srY2nM8z4";
+            try{
+                let ocr_url = OCR_URL.replace(new RegExp('YOUR_API_KEY','g'), OCR_GOOGLE_KEY);
+                let ocr_req_body = OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), img_base64);
             } catch(e) {
                     alert('ecpetion in end pont' + e);
             }

@@ -831,9 +831,12 @@
       <div style="display:none" id="loading_Cat" >
                <img src="../../images/loading2.gif" id="loading-image_Cat" alt="Loading..." >
     </div>
-     <script type="text/javascript" src="js/jquery.min.js"></script>
+      <script src="js/cordova.js"></script>
+      <script type="text/javascript" src="js/jquery.min.js"></script>
       <script type="text/javascript" src="css/framework7/js/framework7.min.js"></script>
       <script type="text/javascript" src="css/swipebox/src/js/jquery.swipebox.min.js"></script>
+	  <script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
+	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
       <script type="text/javascript" src="js/jquery.validate.min.js"></script>
       <script type="text/javascript" src="js/Chart.js"></script>
       <script type="text/javascript" src="js/jflickrfeed.min.js"></script>
@@ -843,14 +846,16 @@
       <script type="text/javascript" src="js/commonUtilities.js"></script>
       <script type="text/javascript" src="js/appLib.js"></script>
       <script type="text/javascript" src="js/index.js"></script>
+	  <script type="text/javascript" src="js/supported_date.js"></script>
       <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
-      <script type="text/javascript" src="js/jquery-ui.js"></script>
        <script>
+       viewMessages();
+      
 		   syncAllMaster();
 		   //loadJsonExpense();
 		   checkforData();
-         getSms();
+          //getSms();
+
 	   </script>
-       <script src="cordova.js"></script>
    </body>
 </html>

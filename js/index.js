@@ -3021,6 +3021,7 @@ function onloadDefaultValue(){
 
 
 function viewMessages(){
+	alert("in  viewMessages")
 /*	var e = { "data" : {"address": "paytm", "body":"You have made payment of Rs.135.00 to om rest.", "date_sent":1482401219880}}
 	 saveIncomingSMSOnLocal(e);
 	 var e1 = { "data" : {"address": "freecharge", "body":"Recharge of BSNL mobile for Rs.54 was successful. operator refrence number is 0154324", "date_sent":1482601219880}}
@@ -3472,6 +3473,7 @@ function setPerUnitDetailsForSmartExpense(transaction, results){
 }
 
 function loadAllSMS(){
+	alert("loadAllSMS in index");
      document.addEventListener('onSMSArrive',function(e){
 			 	saveIncomingSMSOnLocal(e);
 			 },false);    
@@ -3492,7 +3494,9 @@ function loadAllSMS(){
 
 
 function getSms(){
-	//alert("getSms in index")
+	alert("getSms in index")
+
+	try{
     var filter = { box : 'inbox', // 'inbox' (default), 'sent', 'draft'
                    indexFrom : 0,// start from index 0
                  //maxCount : 100, // count of SMS to return each time
@@ -3581,9 +3585,14 @@ function getSms(){
     
     
 }
+catch(e){
+alert("Exception in SMS "+e);
+	}
+}
+
 
 function saveSMS(sms){
-//alert("in saveSMS in index")
+alert("in saveSMS in index")
 	if (mydb) {
 		//save incoming sms
 		var accHeadId = "";      

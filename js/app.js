@@ -907,25 +907,39 @@ function smartSmsSendForApprover(i,smsId){
 
 //  SMS changes
 function saveSMS(sms){
-	j('#loading_Cat').show();
-	if (mydb) {
-		//save incoming sms
-	    var smsMsg = sms.body;
-	    //alert("sms save "+sms);
-		var senderAddress = ""+sms.address;	
-		senderAddress = senderAddress.toLowerCase();	
-		var smsSentDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
-		var smsAmount = parseIncomingSMSForAmount(smsMsg);
-		if (smsMsg != "") {
-	            mydb.transaction(function (t) {
-	                t.executeSql("INSERT INTO smsMaster (smsText,senderAddr,smsSentDate,smsAmount) VALUES (?,?,?,?)", 
-												[smsMsg,senderAddress,smsSentDate,smsAmount]);
-				});
-	            j('#loading_Cat').hide();
-	        } else {
-	        	j('#loading_Cat').hide();
-	        }
-	} else {
+alert("in saveSMS app lib 11")
+    if (mydb) {
+        //save incoming sms
+        var accHeadId = "";      
+        var expNameId = "";    
+        var ocrnarration = sms.body;
+        var ocrFromLoc = "";     
+        var ocrToLoc = "";   
+        var ocrnarration =  document.getElementById('ocrnarration').value;    
+        
+        
+        var ocrExpDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
+        var ocrAmount = parseIncomingSMSForAmount(smsMsg);
+        var currencyId = ""; 
+      
+        var isEntitlementExceeded = "";
+        var busExpAttachment = "";
+        var wayPointunitValue = "";
+      
+        //alert("sms save "+sms);
+        /*var senderAddress = ""+sms.address;   
+        senderAddress = senderAddress.toLowerCase();    */
+
+
+        if (smsMsg != "") {
+                mydb.transaction(function (t) {
+                  t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
+                                                 [accHeadId,expNameId,ocrExpDate,ocrFromLoc,ocrToLoc,ocrnarration,ocrUnit,ocrAmount,currencyId,isEntitlementExceeded,'null','null']);
+                });
+
+            } else {
+            }
+    } else {
         alert("db not found, your browser does not support web sql!");
     }
 }
@@ -1474,7 +1488,7 @@ function onFail(message) {
     }
 
 function onPhotoDataSuccess(imageData) {
-    alert("cameraTask 12336 "+cameraTask);
+    //alert("cameraTask 12336 "+cameraTask);
 	var index = -1;
 	if((cameraTask != " ") ||  (cameraTask != null)){
 		var vals = cameraTask.split("$");
@@ -1498,7 +1512,7 @@ function onPhotoDataSuccess(imageData) {
         alert("db not found, your browser does not support web sql!");
       }
     }else if(cameraTask === "wallet"){
-        alert("in wallet ");
+        //alert("in wallet ");
         saveWalletAttachment(imageData);
         getReceiptsImage();
     }else if(cameraTask === "Wishlist"){
@@ -1599,24 +1613,39 @@ function addocrfunc(){
 }
 
 function saveSMS(sms){
+alert("in saveSMS 222")
+    if (mydb) {
+        //save incoming sms
+        var accHeadId = "";      
+        var expNameId = "";    
+        var ocrnarration = sms.body;
+        var ocrFromLoc = "";     
+        var ocrToLoc = "";   
+        var ocrnarration =  document.getElementById('ocrnarration').value;    
+        
+        
+        var ocrExpDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
+        var ocrAmount = parseIncomingSMSForAmount(smsMsg);
+        var currencyId = ""; 
+      
+        var isEntitlementExceeded = "";
+        var busExpAttachment = "";
+        var wayPointunitValue = "";
+      
+        //alert("sms save "+sms);
+        /*var senderAddress = ""+sms.address;   
+        senderAddress = senderAddress.toLowerCase();    */
 
-	if (mydb) {
-		//save incoming sms
-	    var smsMsg = sms.body;
-	    //alert("sms save "+sms);
-		var senderAddress = ""+sms.address;	
-		senderAddress = senderAddress.toLowerCase();	
-		var smsSentDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
-		var smsAmount = parseIncomingSMSForAmount(smsMsg);
-		if (smsMsg != "") {
-	            mydb.transaction(function (t) {
-	                t.executeSql("INSERT INTO addExpensetable (smsText,senderAddr,smsSentDate,smsAmount,smsAttachment) VALUES (?,?,?,?,?)", 
-												[smsMsg,senderAddress,smsSentDate,smsAmount,'images/dummy-image.png']);
-				});
 
-	        } else {
-	        }
-	} else {
+        if (smsMsg != "") {
+                mydb.transaction(function (t) {
+                  t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
+                                                 [accHeadId,expNameId,ocrExpDate,ocrFromLoc,ocrToLoc,ocrnarration,ocrUnit,ocrAmount,currencyId,isEntitlementExceeded,'null','null']);
+                });
+
+            } else {
+            }
+    } else {
         alert("db not found, your browser does not support web sql!");
     }
 }
@@ -1904,13 +1933,13 @@ function saveBusinessDetailsInWishListkkk(i,smsId){
 
 function chooseOption(imgObj,i) {
     //console.log("1");
-    alert("in chooseOption " +imgObj +" i value " +i);
+   // alert("in chooseOption " +imgObj +" i value " +i);
 
 	if (window.confirm("Send to OCR?") == true) {
         document.getElementById("imgProcessingId").textContent  = "sending your reciept to OCR for processing...";
 		setTimeout(delayFunOK, 3000);
         var imagePath = document.getElementById("recieptid_"+i).src;
-        alert("imagePath  "+imagePath);
+        //alert("imagePath  "+imagePath);
         sendDataToOCR(imagePath);
 
 	} else {
@@ -2389,7 +2418,7 @@ function showImage(){
 
 
 function getReceiptsImage() {
-alert("in getReceiptsImage ");
+//alert("in getReceiptsImage ");
 
 
 
@@ -2460,7 +2489,7 @@ var rowsWallet;
 function saveWalletAttachment(path){
 	if (mydb) {
 		//get the values of the text inputs
-    alert("in saveWalletAttachment ");
+   // alert("in saveWalletAttachment ");
             mydb.transaction(function (t) {
                 t.executeSql("INSERT INTO walletMst (walletAttachment) VALUES (?)", 
 											[path]);
@@ -2507,7 +2536,7 @@ function sendDataToOCR(imagePath) {
         var str_arr = dataURL.split(',');
 
             let img_base64 = str_arr[1];
-            alert("ajax ");
+            //alert("ajax ");
             let OCR_URL="https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY";
             let OCR_REQ_BODY='{"requests": [{"image":{"content": "IMG_BODY_BASE64"},"features":[{"type": "TEXT_DETECTION"}]}]}';
             let OCR_GOOGLE_KEY="AIzaSyBEPMonG1v0hfhJFaQp5qxlV8srY2nM8z4";
@@ -2516,9 +2545,9 @@ function sendDataToOCR(imagePath) {
                 let ocr_req_body = OCR_REQ_BODY.replace(new RegExp('IMG_BODY_BASE64','g'), img_base64);
            
 
-            alert("ajax 11");
-            alert("ocr_url  " +ocr_url);
-            alert("ocr_req_body  " +ocr_req_body);
+            //alert("ajax 11");
+            //alert("ocr_url  " +ocr_url);
+            //alert("ocr_req_body  " +ocr_req_body);
             j.ajax({
                 url: ocr_url,   
                 type:"POST", async:false, 
@@ -2538,7 +2567,7 @@ function sendDataToOCR(imagePath) {
 
 
 function ocrSuccess(response,status,xhr) {
-	alert("ocrSuccess : " + response + " And status : " + status + " And xhr : " + xhr);
+	//alert("ocrSuccess : " + response + " And status : " + status + " And xhr : " + xhr);
 	let textDescription = response.responses[0].textAnnotations[0].description.replace(new RegExp('\n','g'), ' new_line ');
 	let receiptObj = extractData(textDescription);
 	alert("receipt = " + JSON.stringify(receiptObj));
@@ -2546,7 +2575,7 @@ function ocrSuccess(response,status,xhr) {
 }
 
 function ocrFailure(xhr,status,error) {
-	alert("ocrFailure : " + error + " And status : " + status + " And xhr : " + xhr);
+	console.log("ocrFailure : " + error + " And status : " + status + " And xhr : " + xhr);
 }
 
 function extractData(receiptText) {
@@ -2641,11 +2670,11 @@ function validateDate(strDdate) {
 }
 
 function assignValuesToHtmlComponent(obj){
-    alert("assignValuesToHtmlComponent  "+obj)
+    //alert("assignValuesToHtmlComponent  "+obj)
     document.getElementById("imgProcessingId").textContent  = "Reciept Processed successfully.";
     setTimeout(function() {document.getElementById("imgProcessingId").textContent  = "";}, 1000);
 	 document.getElementById("ocrClaims").style.display = "block";
-    document.getElementById('ocrExpDate').value= obj.receiptDate;
+    document.getElementById('ocrExpDate').value= "";
     document.getElementById('ocrAmount').value= obj.totalCost;
     document.getElementById('ocrnarration').value=obj.hotelName;
     document.getElementById("ocrImage").src= ocrImagePath;
@@ -2885,7 +2914,7 @@ function saveOcrDetailsInWishList(){
 
 
 function deleteImageFromWallet(path){
-    //alert("test");
+    alert("deleteImageFromWallet");
     	if (mydb) {
             mydb.transaction(function (t) {
                 t.executeSql("delete from walletMst where walletAttachment ="+path+";");
@@ -2963,10 +2992,10 @@ function hideImg(id){
 //SMART APP Dinesh
 function checkforData(){
 						
-		mydb.transaction(function (t) {
+		/*mydb.transaction(function (t) {
 	                t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
 				 [1,1,'07-10-1994','','','Hi your order #14247962455 of Rs. 2490 for 2 items is successfull.',1,100.00,1,'N','images/dummy-image.png','']);
-				});
+				});*/
 
 						
 						
@@ -2989,7 +3018,7 @@ function checkforData(){
 + " </div> "
 + " <div class='text'> "
 + " <div class='info'> "
-+ " <span class='data'>SMS date : "+row.expDate+" | Amount : "+row.expAmt+"</span> "
++ " <span class='data'>Expense date : "+row.expDate+" | Amount : "+row.expAmt+"</span> "
 + " </div> "
 + " <div class='comment'> "
 + row.expNarration
@@ -3470,7 +3499,7 @@ function checkforDataOCR(){
                         + " </div> "
                         + " <div class='text'> "
                         + " <div class='info'> "
-                        + " <span class='data'>SMS date : "+row.ocrExpDate+"| Amount "+row.ocrAmount+"</span> "
+                        + " <span class='data'>Expense date : "+row.ocrExpDate+"| Amount "+row.ocrAmount+"</span> "
                         + " </div> "
                         + " <div class='comment'> "
                         +    row.ocrNarration
@@ -3735,6 +3764,7 @@ function addToOCRExpense(){
 
                 j("#ocrClaims").hide("slow");
                  alert("Expense added Successfully.");
+                 del
               checkforDataOCR();
 
     } else {

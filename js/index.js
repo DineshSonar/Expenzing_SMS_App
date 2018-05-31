@@ -3489,6 +3489,7 @@ function loadAllSMS(){
 
 
 function getSms(){
+	alert("getSms in index")
     var filter = { box : 'inbox', // 'inbox' (default), 'sent', 'draft'
                    indexFrom : 0,// start from index 0
                  //maxCount : 100, // count of SMS to return each time

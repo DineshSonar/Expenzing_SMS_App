@@ -2271,19 +2271,34 @@ function fetchTravelSettlementExpFromMain() {
 
  //  SMS changes
 function saveSMS(sms){
-
+alert("in saveSMS ")
 	if (mydb) {
 		//save incoming sms
-	    var smsMsg = sms.body;
-	    //alert("sms save "+sms);
-		var senderAddress = ""+sms.address;	
-		senderAddress = senderAddress.toLowerCase();	
-		var smsSentDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
-		var smsAmount = parseIncomingSMSForAmount(smsMsg);
+		var accHeadId = "";      
+        var expNameId = "";    
+	    var ocrnarration = sms.body;
+	    var ocrFromLoc = "";     
+        var ocrToLoc = "";   
+        var ocrnarration =  document.getElementById('ocrnarration').value;    
+        
+	    
+		var ocrExpDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
+		var ocrAmount = parseIncomingSMSForAmount(smsMsg);
+		var currencyId = ""; 
+      
+        var isEntitlementExceeded = "";
+        var busExpAttachment = "";
+        var wayPointunitValue = "";
+      
+		//alert("sms save "+sms);
+		/*var senderAddress = ""+sms.address;	
+		senderAddress = senderAddress.toLowerCase();	*/
+
+
 		if (smsMsg != "") {
 	            mydb.transaction(function (t) {
-	                t.executeSql("INSERT INTO smsMaster (smsText,senderAddr,smsSentDate,smsAmount,smsAttachment) VALUES (?,?,?,?,?)", 
-												[smsMsg,senderAddress,smsSentDate,smsAmount,'images/dummy-image.png']);
+	              t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
+												 [accHeadId,expNameId,ocrExpDate,ocrFromLoc,ocrToLoc,ocrnarration,ocrUnit,ocrAmount,currencyId,isEntitlementExceeded,'null','null']);
 				});
 
 	        } else {

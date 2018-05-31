@@ -3503,8 +3503,9 @@ function getSms(){
                  //maxCount : 100, // count of SMS to return each time
                    };
 	var lastSmsId =window.localStorage.getItem("lastSmsId");
+	alert("lastSmsId  "+lastSmsId);
     if(lastSmsId === 0){
-        if(SMS) SMS.listSMS(filter, function(data){
+         if(window.SMS) window.SMS.listSMS(filter,function(data){
             	if(Array.isArray(data)){
         			for(var i in data) {
         				var sms = data[i];
@@ -3524,11 +3525,13 @@ function getSms(){
           alert('error list sms: ' + err);
           });
     }else{
-
+try{
        if(window.SMS) window.SMS.listSMS(filter,function(data){
             	if(Array.isArray(data)){
         			for(var i in data) {
         				var sms = data[i];
+alert("lastSmsId "+lastSmsId);
+        				alert("sms  "+sms);
         				//smsList.push(sms);
                         if(lastSmsId < sms._id){
                             if(smsFilterBox(sms.body)){
@@ -3558,7 +3561,10 @@ function getSms(){
           alert('error list sms: ' + err);
           });
     
+    }catch(e){
+    	alert("Exception " +e);
     }
+}
     
 
 /*    if(SMS) SMS.listSMS({}, function(data){

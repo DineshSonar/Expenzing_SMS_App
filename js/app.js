@@ -2579,7 +2579,7 @@ function ocrFailure(xhr,status,error) {
 }
 
 function extractData(receiptText) {
-    console.log(receiptText);
+    alert(receiptText);
 	let words = receiptText.split(" ");
 	let wordsLength = words.length, iterateNo=0,receipt={},
 		totalFound="notFound",dateFound="notFound",hotelName="",hotelNameFound="notFound",hotelNameNewLinesCnt=0;
@@ -2645,10 +2645,13 @@ function extractData(receiptText) {
 			}catch(e) {console.log("exception (Not a date): " + e)}
 		}
 	}
+    alert("receipt  "+receipt);
+
 	return receipt;
 }
 
 function validateDate(strDdate) {
+    alert("strDdate  "+strDdate);
 	var formats = [
 	    "MM/DD/YYYY  :)  HH*mm*ss",
 	    "DD-MMM-YYYY",
@@ -2674,7 +2677,7 @@ function assignValuesToHtmlComponent(obj){
     document.getElementById("imgProcessingId").textContent  = "Reciept Processed successfully.";
     setTimeout(function() {document.getElementById("imgProcessingId").textContent  = "";}, 1000);
 	 document.getElementById("ocrClaims").style.display = "block";
-    document.getElementById('ocrExpDate').value= "";
+    document.getElementById('ocrExpDate').value= obj.receiptDate;
     document.getElementById('ocrAmount').value= obj.totalCost;
     document.getElementById('ocrnarration').value=obj.hotelName;
     document.getElementById("ocrImage").src= ocrImagePath;

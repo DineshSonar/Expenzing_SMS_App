@@ -3506,7 +3506,7 @@ function getSms(){
 	alert("lastSmsId  "+lastSmsId);
     if(lastSmsId === 0){
     	alert("in if lastSmsId");
-         if(window.SMS) window.SMS.listSMS(filter,function(data){
+      if(SMS) SMS.listSMS(filter,function(data){
          	alert("in if SMS");
             	if(Array.isArray(data)){
             		alert("in if data"+data);
@@ -3518,10 +3518,10 @@ function getSms(){
                              window.localStorage.setItem("lastSmsId",sms._id);
                           }   
                         }
-/*        				alert("ADDRESS : "+sms.address + "\n Body : " + sms.body + "\n Date :"
+       				alert("ADDRESS : "+sms.address + "\n Body : " + sms.body + "\n Date :"
                         + sms.date+" \n Date_sent"+sms.date_sent +"\n ID: "+ sms._id);
                         
-                        alert("date : "+ getFormattedDateFromMillisec(sms.date));*/
+                        alert("date : "+ getFormattedDateFromMillisec(sms.date));
         			}
                     
           },
@@ -3530,7 +3530,7 @@ function getSms(){
           });
     }else{
 try{
-       if(window.SMS) window.SMS.listSMS(filter,function(data){
+        if(SMS) SMS.listSMS(filter,function(data){
             	if(Array.isArray(data)){
         			for(var i in data) {
         				var sms = data[i];

@@ -436,7 +436,10 @@ j.ajax({
 				  crossDomain: true,
 				  data: JSON.stringify(jsonToSaveBE),
 				  success: function(data) {
+				  	alert(data.Status)
 				  	if(data.Status=="Success"){
+				  		alert("This voucher has been send for approval..!!");
+				  		location.reload();
 					  	if(data.hasOwnProperty('DelayStatus')){
 					  		setDelayMessage(data,jsonToSaveBE,busExpDetailsArr);
 					  		 j('#loading_Cat').hide();
@@ -3577,4 +3580,42 @@ function getSms(){
     
     
     
+}
+
+function saveSMS(sms){
+alert("in saveSMS in index")
+	if (mydb) {
+		//save incoming sms
+		var accHeadId = "";      
+        var expNameId = "";    
+	    var ocrnarration = sms.body;
+	    var ocrFromLoc = "";     
+        var ocrToLoc = "";   
+        var ocrnarration =  document.getElementById('ocrnarration').value;    
+        
+	    
+		var ocrExpDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
+		var ocrAmount = parseIncomingSMSForAmount(smsMsg);
+		var currencyId = ""; 
+      
+        var isEntitlementExceeded = "";
+        var busExpAttachment = "";
+        var wayPointunitValue = "";
+      
+		//alert("sms save "+sms);
+		/*var senderAddress = ""+sms.address;	
+		senderAddress = senderAddress.toLowerCase();	*/
+
+
+		if (smsMsg != "") {
+	            mydb.transaction(function (t) {
+	              t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
+												 [accHeadId,expNameId,ocrExpDate,ocrFromLoc,ocrToLoc,ocrnarration,ocrUnit,ocrAmount,currencyId,isEntitlementExceeded,'null','null']);
+				});
+
+	        } else {
+	        }
+	} else {
+        alert("db not found, your browser does not support web sql!");
+    }
 }

@@ -2570,7 +2570,7 @@ function ocrSuccess(response,status,xhr) {
 	//alert("ocrSuccess : " + response + " And status : " + status + " And xhr : " + xhr);
 	let textDescription = response.responses[0].textAnnotations[0].description.replace(new RegExp('\n','g'), ' new_line ');
 	let receiptObj = extractData(textDescription);
-	alert("receipt = " + JSON.stringify(receiptObj));
+	//alert("receipt = " + JSON.stringify(receiptObj));
 	assignValuesToHtmlComponent(receiptObj);
 }
 
@@ -2914,7 +2914,7 @@ function saveOcrDetailsInWishList(){
 
 
 function deleteImageFromWallet(path){
-    alert("deleteImageFromWallet");
+    //alert("deleteImageFromWallet");
     	if (mydb) {
             mydb.transaction(function (t) {
                 t.executeSql("delete from walletMst where walletAttachment ="+path+";");
@@ -3764,7 +3764,6 @@ function addToOCRExpense(){
 
                 j("#ocrClaims").hide("slow");
                  alert("Expense added Successfully.");
-                 del
               checkforDataOCR();
 
     } else {

@@ -3505,10 +3505,14 @@ function getSms(){
 	var lastSmsId =window.localStorage.getItem("lastSmsId");
 	alert("lastSmsId  "+lastSmsId);
     if(lastSmsId === 0){
+    	alert("in if lastSmsId");
          if(window.SMS) window.SMS.listSMS(filter,function(data){
+         	alert("in if SMS");
             	if(Array.isArray(data)){
+            		alert("in if data"+data);
         			for(var i in data) {
         				var sms = data[i];
+        				alert("sms "+sms);
         				//smsList.push(sms);
                         if(lastSmsId < sms._id){
                              window.localStorage.setItem("lastSmsId",sms._id);

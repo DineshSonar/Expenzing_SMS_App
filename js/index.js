@@ -3169,6 +3169,7 @@ function operationsOnSMS(){
 }
 
 function smsFilterBox(smsText){
+	alert("smsFilterBox  "+smsText)
 	var filtersStr = "Successfully$Successfully$Not$OTP@successful$paid$payment of";
 	//console.log("filtersStr  "+filtersStr)
 	var blockedWordsStr = filtersStr.split("@")[0];
@@ -3524,7 +3525,7 @@ function getSms(){
           });
     }else{
 
-        if(SMS) SMS.listSMS(filter, function(data){
+       if(window.SMS) window.SMS.listSMS(filter,function(data){
             	if(Array.isArray(data)){
         			for(var i in data) {
         				var sms = data[i];

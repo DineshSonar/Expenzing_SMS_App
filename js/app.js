@@ -2992,10 +2992,10 @@ function hideImg(id){
 //SMART APP Dinesh
 function checkforData(){
 						
-		mydb.transaction(function (t) {
+		/*mydb.transaction(function (t) {
 	                t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
 				 [1,1,'07-10-1994','','','Hi your order #14247962455 of Rs. 2490 for 2 items is successfull.',1,100.00,1,'N','images/dummy-image.png','']);
-				});
+				});*/
 
 						
 						

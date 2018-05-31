@@ -2517,11 +2517,11 @@ function sendDataToOCR(imagePath) {
            
 
             alert("ajax 11");
+            alert("ocr_url  " +ocr_url);
+            alert("ocr_req_body  " +ocr_req_body);
             j.ajax({
-                url: ocr_url, 
-                alert("ocr_url  "+ocr_url);
+                url: ocr_url,   
                 type:"POST", async:false, 
-                alert("POST  type");
                 success: ocrSuccess,                
                 contentType:'application/json',
                 data:ocr_req_body,

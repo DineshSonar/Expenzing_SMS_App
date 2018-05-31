@@ -3492,7 +3492,7 @@ function loadAllSMS(){
 
 
 function getSms(){
-	alert("getSms in index")
+	//alert("getSms in index")
     var filter = { box : 'inbox', // 'inbox' (default), 'sent', 'draft'
                    indexFrom : 0,// start from index 0
                  //maxCount : 100, // count of SMS to return each time
@@ -3583,7 +3583,7 @@ function getSms(){
 }
 
 function saveSMS(sms){
-alert("in saveSMS in index")
+//alert("in saveSMS in index")
 	if (mydb) {
 		//save incoming sms
 		var accHeadId = "";      

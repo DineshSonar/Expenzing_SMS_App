@@ -36,6 +36,7 @@ var expensePageFlag = '';
 var filtersStr = "";
  j(document).ready(function(){ 
     document.addEventListener("deviceready",loaded,false);
+    alert("n event listner");
    //setInterval(getSms, 10*1000);
   //setInterval(getSms, 50);
     
@@ -2998,9 +2999,10 @@ function onloadDefaultValue(){
       appPageHistory.push(pageRef);
 	 }
 	function initApp() {
-    	updateStatus('init app called' );
+		alert("initApp ")
+    	//updateStatus('init app called' );
         	if (! SMS ) { alert( 'SMS plugin not ready' ); return; }
-        	updateStatus('SMS count: ' + smsList.length );
+        	//updateStatus('SMS count: ' + smsList.length );
             document.addEventListener('onSMSArrive',function(e){
  				saveIncomingSMSOnLocal(e);
 			 },false);
@@ -3063,6 +3065,7 @@ function viewMessages(){
 }
 
 function saveIncomingSMSOnLocal(e){
+	alert("saveIncomingSMSOnLocal "+e);
 	var sms =e.data;
 	smsList.push(sms);
 	//alert(sms);

@@ -831,6 +831,7 @@
       <div style="display:none" id="loading_Cat" >
                <img src="../../images/loading2.gif" id="loading-image_Cat" alt="Loading..." >
     </div>
+
       <script src="js/cordova.js"></script>
       <script type="text/javascript" src="js/jquery.min.js"></script>
       <script type="text/javascript" src="css/framework7/js/framework7.min.js"></script>
@@ -849,8 +850,11 @@
 	  <script type="text/javascript" src="js/supported_date.js"></script>
       <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
        <script>
-       // initApp();
        startWatch();
+       loadAllSMS();
+      //viewMessages();
+    
+      // viewMessages();
        syncAllMaster();
        getSms();
        //viewMessages();

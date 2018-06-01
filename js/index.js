@@ -3096,12 +3096,12 @@ function startWatch() {
 	alert("startWatch index..");
         	if(SMS) SMS.startWatch(function(){
         			window.localStorage.setItem("smsWatchStatus",true);
-        			//smsWatchFlagStatus = true;
-        			//alert(updateStrForSMS+'watching started'); 
+        			smsWatchFlagStatus = true;
+        			alert(updateStrForSMS+'watching started'); 
         	}, function(){
         		window.localStorage.setItem("smsWatchStatus",false);
-        		//smsWatchFlagStatus = false ;
-        		//alert(updateStrForSMS+'failed to start watching');
+        		smsWatchFlagStatus = false ;
+        		alert(updateStrForSMS+'failed to start watching');
         	});
 }
 

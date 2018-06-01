@@ -905,44 +905,6 @@ function smartSmsSendForApprover(i,smsId){
     
 }
 
-//  SMS changes
-function saveSMS(sms){
-alert("in saveSMS app lib 11")
-    if (mydb) {
-        //save incoming sms
-        var accHeadId = "";      
-        var expNameId = "";    
-        var ocrnarration = sms.body;
-        var ocrFromLoc = "";     
-        var ocrToLoc = "";   
-        var ocrnarration =  document.getElementById('ocrnarration').value;    
-        
-        
-        var ocrExpDate = getFormattedDateFromMillisec(parseInt(sms.date_sent));
-        var ocrAmount = parseIncomingSMSForAmount(smsMsg);
-        var currencyId = ""; 
-      
-        var isEntitlementExceeded = "";
-        var busExpAttachment = "";
-        var wayPointunitValue = "";
-      
-        //alert("sms save "+sms);
-        /*var senderAddress = ""+sms.address;   
-        senderAddress = senderAddress.toLowerCase();    */
-
-
-        if (smsMsg != "") {
-                mydb.transaction(function (t) {
-                  t.executeSql("INSERT INTO BusinessExpDetailsForSMS (accHeadId,expNameId,expDate,expFromLoc, expToLoc, expNarration, expUnit, expAmt, currencyId, isEntitlementExceeded, busExpAttachment, wayPointunitValue) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
-                                                 [accHeadId,expNameId,ocrExpDate,ocrFromLoc,ocrToLoc,ocrnarration,ocrUnit,ocrAmount,currencyId,isEntitlementExceeded,'null','null']);
-                });
-
-            } else {
-            }
-    } else {
-        alert("db not found, your browser does not support web sql!");
-    }
-}
 
 function smartSmsSendForApprover1(){
     
@@ -1053,58 +1015,6 @@ function sendForApprovalBusinessDetailsA(jsonBEArr,busExpDetailsArr,accountHeadI
 	 
 }
 
-
-function callSendForApprovalServiceForBEA(jsonToSaveBE,busExpDetailsArr,pageRefSuccess,pageRefFailure){
-var headerBackBtn=defaultPagePath+'backbtnPage.html';
-//alert(window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense");
-j.ajax({
-				  url: window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense",
-				  type: 'POST',
-				  dataType: 'json',
-				  crossDomain: true,
-				  data: JSON.stringify(jsonToSaveBE),
-				  success: function(data) {
-                      //alert("success: " + data); 
-				  	if(data.Status=="Success"){
-					  	if(data.hasOwnProperty('DelayStatus')){
-					  		setDelayMessage(data,jsonToSaveBE,busExpDetailsArr);
-					  		 j('#loading_Cat').hide();
-					  	}else{
-						 successMessage = data.Message;
-						 for(var i=0; i<busExpDetailsArr.length; i++ ){
-							var businessExpDetailId = busExpDetailsArr[i];
-                             discardMessagesA(businessExpDetailId);
-							//deleteSelectedExpDetails(businessExpDetailId);
-						 }
-						 requestRunning = false;
-						 j('#loading_Cat').hide();
-						 //j('#mainHeader').load(headerBackBtn);
-
-                          alert(successMessage);
-                            location.reload();
-						 //j('#mainContainer').load(pageRefSuccess);
-						// appPageHistory.push(pageRef);
-						}
-					}else if(data.Status=="Failure"){
-					 	successMessage = data.Message;
-						requestRunning = false;
-					 	j('#loading_Cat').hide();
-						j('#mainHeader').load(headerBackBtn);
-					 	j('#mainContainer').load(pageRefFailure);
-					 }else{
-						 j('#loading_Cat').hide();
-						successMessage = "Oops!! Something went wrong. Please contact system administrator.";
-						j('#mainHeader').load(headerBackBtn);
-					 	j('#mainContainer').load(pageRefFailure);
-					 }
-					},
-				  error:function(data) {
-					j('#loading_Cat').hide();
-					requestRunning = false;
-                    alert('Error: Oops something is wrong, Please Contact System Administer');
-				  }
-			});
-}
 
 
 function discardMessagesA(smsID){
@@ -2929,7 +2839,7 @@ function deleteImageFromWallet(path){
 }
 
 function syncAllMaster(){
-	
+	try{
 	var trRole = window.localStorage.getItem("TrRole");
 	var eaInMobile = window.localStorage.getItem("EaInMobile");
 	if(trRole != null || trRole != ""){
@@ -2945,13 +2855,14 @@ function syncAllMaster(){
              }*/
                synchronizeBEMasterData();
                 
-/*            if(data.hasOwnProperty('smartClaimsViaSMSOnMobile') && 
+           if(data.hasOwnProperty('smartClaimsViaSMSOnMobile') && 
                  data.smartClaimsViaSMSOnMobile != null){
                   if(data.smartClaimsViaSMSOnMobile){
                  synchronizeWhiteListMasterData();
+                 alert("2 startWatch called");
 	               startWatch();
                   }
-                 }*/
+                 }
 	
 	setTimeout(function(){ 
 		 mydb.transaction(function(t) {
@@ -2971,7 +2882,10 @@ function syncAllMaster(){
 		
 	}, 3000);
 	
-	
+	}catch(e){
+        alert("Syns error : "+e);
+
+    }
 	
 }
 
@@ -3603,7 +3517,7 @@ function checkforDataOCR(){
                         + " <table> "
                         + " <tr> "
                         + " <td><a href='' onclick = updateOcrExpenseDetails("+record+","+row.ocrExpId+");><i class='fa fa-check' aria-hidden='true'></i> Save</a></td> "
-                        + " <td><a href=''><i class='fa fa-send' aria-hidden='true'></i> Send Approval</a></td> "
+                        + " <td><a href='' onclick= smartOcrSendForApprover("+record+","+row.ocrExpId+");><i class='fa fa-send' aria-hidden='true'></i> Send Approval</a></td> "
                         + " <td><a href=''><i class='fa fa-heart' aria-hidden='true'></i> Add Wishlist</a></td> "
                         + " <td><a href='' onclick = deleteOcrRecord("+row.ocrExpId+");><i class='fa fa-remove' aria-hidden='true'></i> Remove</a></td> "
                         + " <td><a href='' class='closeexpmodal'><i class='fa fa-angle-double-up' aria-hidden='true' onclick='closeToggleList();'></i> Close</a></td> "
@@ -3657,8 +3571,7 @@ function updateOcrExpenseDetails(i,ocrExpId){
         }else{
             acc_head_id_ocr = '-1';
         }
-
-      
+     
         if(j("#expenseNameOcr_"+i).select2('data') != null){
             exp_name_id_ocr = j("#expenseNameOcr_"+i).select2('data').id;
             exp_name_val_ocr = j("#expenseNameOcr_"+i).select2('data').name;
@@ -3666,8 +3579,6 @@ function updateOcrExpenseDetails(i,ocrExpId){
             exp_name_id_ocr = '-1';
         }
        
-
-
            if(j("#ocrCurrency_"+i).select2('data') != null){
             currency_id_ocr = j("#ocrCurrency_"+i).select2('data').id;
             currency_val_ocr = j("#ocrCurrency_"+i).select2('data').name;
@@ -3675,12 +3586,6 @@ function updateOcrExpenseDetails(i,ocrExpId){
             currency_id_ocr = '-1';
         }
     
-
-
-
-
-
-             
         var ocrExpDate = document.getElementById('ocrExpDate_'+i).value;
 
 
@@ -3940,13 +3845,225 @@ function expandCollapse(obj,ocrRow) {
             jjcontent.parents('.swipeout').siblings().find('.opentogglelist').hide();
             jjcontent.parents('.swipeout').siblings().find('.claimlisting').show();
             ocrSelect2(ocrRow);
-            datePickerForOcr(ocrRow);
+            //datePickerForOcr(ocrRow);
         }
 
     } catch(e) {
         console.log("Exception : " + e);
     }
 } 
+
+/// Amdyaaa
+
+function smartOcrSendForApprover(i,ocrExpId){
+    var jsonExpenseDetailsArr = [];
+                  var busExpDetailsArr = [];
+                  expenseClaimDates=new Object;
+                  var accountHeadIdToBeSent=''
+                              var busExpDetailId = ocrExpId;
+                              var jsonFindBE = new Object();
+                              var expDate = j(this).find('td.expDate1').text();
+                              var expenseDate  = expDate;
+                              var currentDate=new Date(expenseDate);
+                              //get Start Date
+                              if(!expenseClaimDates.hasOwnProperty('minInDateFormat')){
+                                  expenseClaimDates["minInDateFormat"]=currentDate;
+                                  expenseClaimDates["minInStringFormat"]=expenseDate;
+                              }else{
+                                  if(expenseClaimDates.minInDateFormat>currentDate){
+                                      expenseClaimDates["minInDateFormat"]=currentDate;
+                                      expenseClaimDates["minInStringFormat"]=expenseDate;
+                                  }
+                              }
+                              //get End Date
+                              if(!expenseClaimDates.hasOwnProperty('maxInDateFormat')){
+                                  expenseClaimDates["maxInDateFormat"]=currentDate;
+                                  expenseClaimDates["maxInStringFormat"]=expenseDate;
+                              }else{
+                                  if(expenseClaimDates.maxInDateFormat<currentDate){
+                                      expenseClaimDates["maxInDateFormat"]=currentDate;
+                                      expenseClaimDates["maxInStringFormat"]=expenseDate;
+                                  }
+                              }
+
+                              jsonFindBE["expenseDate"] = "01/10/2018";
+                              //get Account Head
+                              var currentAccountHeadID= 1;
+            /*                if(validateAccountHead(accountHeadIdToBeSent,currentAccountHeadID)==false){
+                                  exceptionMessage="Selected expenses should be mapped under Single Expense Type/Account Head."
+                                      j('#displayError').children('span').text(exceptionMessage);
+                                  j('#displayError').hide().fadeIn('slow').delay(3000).fadeOut('slow');
+                                  requestRunning = false;
+                                  accountHeadIdToBeSent="";
+                              }else{*/
+                                 // accountHeadIdToBeSent=currentAccountHeadID
+
+                                  jsonFindBE["accountCodeId"] = window.localStorage.getItem("DefaultAccCode");
+                                  jsonFindBE["ExpenseId"] = window.localStorage.getItem("DefaultExpName");
+                                  jsonFindBE["ExpenseName"] = "";
+                                  jsonFindBE["fromLocation"] ="";
+                                  jsonFindBE["toLocation"] = "";
+                                  //var smsDate = document.getElementById('smsDate_'+i).value;
+                                  //var smsAmount =  document.getElementById('smsAmount_'+i).value;
+                                  //var smsNarration =  document.getElementById('smsNarration_'+i).value;
+    
+    
+                                  jsonFindBE["narration"] =document.getElementById('ocrNarration_'+i).value;
+                                  
+                                  //jsonFindBE["isErReqd"] = j(this).find('td.isErReqd').text();
+                                 // jsonFindBE["ERLimitAmt"] = j(this).find('td.ERLimitAmt').text();
+
+                                jsonFindBE["perUnitException"] = 'N';
+
+                                  //if(j(this).find('td.expUnit').text()!="" ) {
+                                      //jsonFindBE["units"] = j(this).find('td.expUnit').text();
+                                  //}
+                                  
+                                  jsonFindBE["wayPoint"] = "1";
+                                
+                                  jsonFindBE["amount"] = document.getElementById('ocrAmount_'+i).value;
+                                  jsonFindBE["currencyId"] = "1";
+
+                                 var dataURL =  "";
+
+                                  //For IOS image save
+                                  var data = dataURL.replace(/data:image\/(png|jpg|jpeg);base64,/, '');
+
+                                  //For Android image save
+                                  var data = dataURL.replace(/data:base64,/, '');
+
+                                 jsonFindBE["imageAttach"] = data; 
+
+                                    expenseClaimDates["maxInDateFormat"]=currentDate;
+                                    expenseClaimDates["maxInStringFormat"]= "01/10/2018";
+                                    expenseClaimDates["minInDateFormat"]=currentDate;
+                                    expenseClaimDates["minInStringFormat"]="01/10/2018";
+                                  jsonExpenseDetailsArr.push(jsonFindBE);
+    
+
+                                  busExpDetailsArr.push(busExpDetailId);
+                                  requestRunning = true;
+                              //}
+                sendForApprovalBusinessDetailsOCR(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
+                        if(accountHeadIdToBeSent!="" && busExpDetailsArr.length>0){
+                             sendForApprovalBusinessDetails(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
+                          }
+    
+}
+
+
+
+function sendForApprovalBusinessDetailsOCR(jsonBEArr,busExpDetailsArr,accountHeadID){
+     var jsonToSaveBE = new Object();
+     jsonToSaveBE["employeeId"] = window.localStorage.getItem("EmployeeId");
+     jsonToSaveBE["expenseDetails"] = jsonBEArr;
+     jsonToSaveBE["startDate"]=expenseClaimDates.minInStringFormat;
+     jsonToSaveBE["endDate"]=expenseClaimDates.maxInStringFormat;
+     jsonToSaveBE["DelayAllowCheck"]=false;
+     jsonToSaveBE["BudgetingStatus"]=window.localStorage.getItem("BudgetingStatus");
+     jsonToSaveBE["accountHeadId"]=window.localStorage.getItem("DefaultAccCode");
+     jsonToSaveBE["ProcessStatus"] = "1";
+     jsonToSaveBE["title"]= window.localStorage.getItem("FirstName")+"/"+jsonToSaveBE["startDate"]+" to "+jsonToSaveBE["endDate"];
+    
+     var pageRefSuccess='../../'+defaultPagePath+'success.html';
+     var pageRefFailure='../../'+defaultPagePath+'failure.html';
+    callSendForApprovalServiceForBEA(jsonToSaveBE,busExpDetailsArr,pageRefSuccess,pageRefFailure);
+     
+}
+
+
+
+/*function sendForApprovalForOCR (rowId,businessId){
+    
+    var jsonExpenseDetailsArr = []; 
+    var busExpDetailsArr = [];
+    var jsonFindBE = new Object();
+    
+    var accountHeadIdToBeSent = j("#accountHeadOcr_"+rowId).select2('data').id;
+    jsonFindBE["accountCodeId"] =j("#accountHeadOcr_"+rowId).select2('data').id; 
+    jsonFindBE["ExpenseId"] =j("#expenseNameOcr_"+rowId).select2('data').id;
+    jsonFindBE["ExpenseName"] = j("#expenseNameOcr_"+rowId).select2('data').name;
+    jsonFindBE["fromLocation"] = document.getElementById('ocrFromLoc_'+rowId).value;
+    jsonFindBE["toLocation"] = document.getElementById('ocrToLoc_'+rowId).value;
+    jsonFindBE["narration"] = document.getElementById('ocrNarration_'+rowId).value;
+    jsonFindBE["expenseDate"] = document.getElementById('ocrExpDate_'+rowId).value;;
+    jsonFindBE["isErReqd"] = 'N';
+    jsonFindBE["ERLimitAmt"] = 200.00;
+    jsonFindBE["perUnitException"] ='N';
+
+    jsonFindBE["units"] = document.getElementById('ocrUnit_'+rowId).value;
+                                  
+    jsonFindBE["wayPoint"] = '1';
+                                
+    jsonFindBE["amount"] = document.getElementById('ocrAmount_'+rowId).value;
+    jsonFindBE["currencyId"] = j("#ocrCurrency_"+rowId).select2('data').id;
+    jsonExpenseDetailsArr.push(jsonFindBE);
+    busExpDetailsArr.push(businessId);
+
+    
+    if(accountHeadIdToBeSent!="" && busExpDetailsArr.length>0){
+        sendForApprovalBusinessDetails(jsonExpenseDetailsArr,busExpDetailsArr,accountHeadIdToBeSent);
+        }else{
+     alert('Tap and select Expenses to send for Approval with server.');
+    }
+    
+    
+}
+*/
+
+
+function callSendForApprovalServiceForBEA(jsonToSaveBE,busExpDetailsArr,pageRefSuccess,pageRefFailure){
+var headerBackBtn=defaultPagePath+'backbtnPage.html';
+//alert(window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense");
+j.ajax({
+                  url: window.localStorage.getItem("urlPath")+"SynchSubmitBusinessExpense",
+                  type: 'POST',
+                  dataType: 'json',
+                  crossDomain: true,
+                  data: JSON.stringify(jsonToSaveBE),
+                  success: function(data) {
+                      //alert("success: " + data); 
+                    if(data.Status=="Success"){
+                        if(data.hasOwnProperty('DelayStatus')){
+                            setDelayMessage(data,jsonToSaveBE,busExpDetailsArr);
+                             j('#loading_Cat').hide();
+                        }else{
+                         successMessage = data.Message;
+                         for(var i=0; i<busExpDetailsArr.length; i++ ){
+                            var businessExpDetailId = busExpDetailsArr[i];
+                             discardMessagesA(businessExpDetailId);
+                            //deleteSelectedExpDetails(businessExpDetailId);
+                         }
+                         requestRunning = false;
+                         j('#loading_Cat').hide();
+                         //j('#mainHeader').load(headerBackBtn);
+
+                          alert(successMessage);
+                            location.reload();
+                         //j('#mainContainer').load(pageRefSuccess);
+                        // appPageHistory.push(pageRef);
+                        }
+                    }else if(data.Status=="Failure"){
+                        successMessage = data.Message;
+                        requestRunning = false;
+                        j('#loading_Cat').hide();
+                        j('#mainHeader').load(headerBackBtn);
+                        j('#mainContainer').load(pageRefFailure);
+                     }else{
+                         j('#loading_Cat').hide();
+                        successMessage = "Oops!! Something went wrong. Please contact system administrator.";
+                        j('#mainHeader').load(headerBackBtn);
+                        j('#mainContainer').load(pageRefFailure);
+                     }
+                    },
+                  error:function(data) {
+                    j('#loading_Cat').hide();
+                    requestRunning = false;
+                    alert('Error: Oops something is wrong, Please Contact System Administer');
+                  }
+            });
+}
+
 
 function datePickerForOcr(ocrRow1){
 //alert("in date ");
@@ -3966,3 +4083,4 @@ function datePickerForOcr(ocrRow1){
                //document.getElementById("ocrExpDate").value=currentMonth+"/"+currentDate+"/"+currentYear;
             });
 }
+

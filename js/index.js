@@ -410,6 +410,7 @@ function saveTravelSettleExpDetails(jsonTSArr,tsExpDetailsArr){
 }
 
 function sendForApprovalBusinessDetails(jsonBEArr,busExpDetailsArr,accountHeadID){
+	alert("sendForApprovalBusinessDetails");
 	 var jsonToSaveBE = new Object();
 	 jsonToSaveBE["employeeId"] = window.localStorage.getItem("EmployeeId");
 	 jsonToSaveBE["expenseDetails"] = jsonBEArr;
@@ -3000,13 +3001,18 @@ function onloadDefaultValue(){
 	 }
 	function initApp() {
 		alert("initApp ")
-    	//updateStatus('init app called' );
+    	updateStatus('init app called' );
+    	try{
         	if (! SMS ) { alert( 'SMS plugin not ready' ); return; }
-        	//updateStatus('SMS count: ' + smsList.length );
+        	updateStatus('SMS count: ' + smsList.length );
             document.addEventListener('onSMSArrive',function(e){
  				saveIncomingSMSOnLocal(e);
 			 },false);
             //alert('end of init' );
+        }catch(e){
+        	alert("init App error" +e);
+        }
+
         }   
 
 
@@ -3068,7 +3074,7 @@ function saveIncomingSMSOnLocal(e){
 	alert("saveIncomingSMSOnLocal "+e);
 	var sms =e.data;
 	smsList.push(sms);
-	//alert(sms);
+	alert("sms  "+sms);
 	var senderAddress = ""+sms.address;	
 	senderAddress = senderAddress.toLowerCase();
     //alert(senderAddress);
@@ -3087,6 +3093,7 @@ function saveIncomingSMSOnLocal(e){
 }
 
 function startWatch() {
+	alert("startWatch index..");
         	if(SMS) SMS.startWatch(function(){
         			window.localStorage.setItem("smsWatchStatus",true);
         			//smsWatchFlagStatus = true;
@@ -3324,6 +3331,7 @@ function populateMainPage(){
             if(window.localStorage.getItem("smartClaimsViaSMSOnMobile") != null && 
                  window.localStorage.getItem("smartClaimsViaSMSOnMobile")){
                  synchronizeWhiteListMasterData();
+            	  alert("calling startWatch");
 	               startWatch();
                  }
     
@@ -3604,7 +3612,7 @@ alert("Exception in SMS "+e);
 	}
 }
 
-
+/*
 function saveSMS(sms){
 alert("in saveSMS in index")
 	if (mydb) {
@@ -3626,8 +3634,8 @@ alert("in saveSMS in index")
         var wayPointunitValue = "";
       
 		//alert("sms save "+sms);
-		/*var senderAddress = ""+sms.address;	
-		senderAddress = senderAddress.toLowerCase();	*/
+		var senderAddress = ""+sms.address;	
+		senderAddress = senderAddress.toLowerCase();	
 
 
 		if (smsMsg != "") {
@@ -3642,3 +3650,4 @@ alert("in saveSMS in index")
         alert("db not found, your browser does not support web sql!");
     }
 }
+*/
